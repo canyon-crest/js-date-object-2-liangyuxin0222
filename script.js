@@ -40,6 +40,15 @@ document.getElementById("warmUpDate").innerHTML = dayName;
 // Display the current date in the format: M/D/YYYY
 // in the element with ID "myDate".
 // Example: "4/2/2025" (no leading zeros)
+const today = new Date();
+
+const month = today.getMonth() + 1;
+const day = today.getDate();
+const year = today.getFullYear();
+
+document.getElementById("myDate").textContent =
+  month + "/" + day + "/" + year;
+
 
 // STEP 6: Create a new Date object (or reuse the one from above).
 
@@ -72,7 +81,38 @@ document.getElementById("warmUpDate").innerHTML = dayName;
 //          b) Calculate elapsed seconds: (currentTime - startTime) / 1000
 //          c) Display the elapsed time using .toFixed(3)
 //             in the element with ID "myTimer"
+let startTime = new Date().getTime();
 
+function updateTimer() {
+  const currentTime = new Date().getTime();
+  const elapsedSeconds = (currentTime - startTime) / 1000;
+
+  document.getElementById("myTimer").textContent =
+    elapsedSeconds.toFixed(3);
+}
+
+updateTimer();
+let timerId = setInterval(updateTimer, 10);
+
+// PART 3: Start/Stop Toggle Button
+let running = true;
+const button = document.getElementById("myBtn");
+
+button.innerHTML = "Stop";
+
+button.addEventListener("click", function () {
+  if (running) {
+    clearInterval(timerId);
+    button.innerHTML = "Start";
+    running = false;
+  } else {
+    startTime = new Date().getTime();
+    updateTimer();
+    timerId = setInterval(updateTimer, 10);
+    button.innerHTML = "Stop";
+    running = true;
+  }
+});
 
 // ============================================
 //  PART 3: Start/Stop Toggle Button
